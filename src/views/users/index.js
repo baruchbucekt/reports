@@ -1,39 +1,44 @@
 import React, { Component } from 'react';
 
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {Button} from 'primereact/button';
-import $ from 'jquery'; 
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+import $ from 'jquery';
 
+let Count = 0;
 class UsersTable extends Component {
 
     constructor() {
         super();
         this.state = {};
         this.export = this.export.bind(this);
+        this.NumTemplate = this.NumTemplate.bind(this);
     }
 
 
     export() {
         this.dt.exportCSV();
     }
-    componentDidMount(){
+    componentDidMount() {
         let _this = this;
         $.ajax({
             type: 'GET',
+            //url: '/api/license-manager/site/pvt/logins/list/paged?sort=name&sortType=ASC&numItems=11377',
             url: './allUser.json',
             dataType: 'json',
-            success: function(data){
-                console.log(data.items)
-                
-         _this.setState({ users: data.items});
+            success: function (data) {
+                //console.log(data.items)
+                _this.setState({ users: data.items });
             },
-            error: function() { console.log('Failed!'); }
+            error: function () { console.log('Failed!'); }
         });
     }
-
+    NumTemplate(rowData, column, e) {
+        Count++;
+        return <span>{Count}</span>;
+    }
     render() {
-        var header = <div style={{textAlign:'left'}}><Button type="button" icon="pi pi-external-link" iconPos="left" label="CSV" onClick={this.export}></Button></div>;
+        var header = <div style={{ textAlign: 'left' }}><Button type="button" icon="pi pi-external-link" iconPos="left" label="CSV" onClick={this.export}></Button></div>;
 
         return (
             <div>
@@ -47,6 +52,7 @@ class UsersTable extends Component {
                 <div className="content-section implementation">
                     <h3>Basic</h3>
                     <DataTable value={this.state.users} header={header} ref={(el) => { this.dt = el; }}>
+                        <Column header="#" body={this.NumTemplate} />
                         <Column field="email" header="email" />
                         <Column field="name" header="name" />
                     </DataTable>

@@ -1,13 +1,14 @@
 
 import React, { Component } from 'react';
 import './App.css';
+import { Menubar } from 'primereact/menubar';
+import { Router, Route } from "react-router";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-
 
 import Users from './views/users/';
 
@@ -22,35 +23,47 @@ const Home = () => (
   </div>
 );
 
+let History = createBrowserHistory();
 class App extends Component {
-  
 
+  constructor() {
+    super();
+    this.state = {
+      items: [
+        {
+          label: 'Home',
+          icon: 'pi pi-fw pi-home',
+          command: () => { History.push('/'); }
+        }, {
+          label: 'Usuarios',
+          icon: 'pi pi-fw pi-users',
+          items: [
+            {
+              label: "Usuarios Vtex",
+              icon: "pi pi-fw pi-users",
+              command: () => { History.push('/users'); },
+            }
+          ]
+        }, {
+          label: 'Información',
+          icon: 'pi pi-plus',
+          command: () => { History.push('/about'); }
+        }
+      ]
+    };
+  }
 
   render() {
     return (
-      <Router>
-    <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/users">Usuarios</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-      </ul>
-
-      <hr />
-
-      <Route exact path="/" component={Home} />
-      <Route exact path="/users" component={Users} />
-      <Route path="/about" component={About} />
-    </div>
-  </Router>
+      <Router history={History}>
+        <div>
+          <Menubar model={this.state.items} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/users" component={Users} />
+          <Route path="/about" component={About} />
+        </div>
+      </Router>
     );
   }
 }
-
 export default App;
