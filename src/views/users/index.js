@@ -5,7 +5,10 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import $ from 'jquery';
 
+import GetRol from '../../components/getRole';
+
 let Count = 0;
+
 class UsersTable extends Component {
 
     constructor() {
@@ -13,9 +16,8 @@ class UsersTable extends Component {
         this.state = {};
         this.export = this.export.bind(this);
         this.NumTemplate = this.NumTemplate.bind(this);
+        this.GetRol = this.GetRol.bind(this);
     }
-
-
     export() {
         this.dt.exportCSV();
     }
@@ -33,11 +35,17 @@ class UsersTable extends Component {
             error: function () { console.log('Failed!'); }
         });
     }
+    GetRol = (items) => {
+        return items.map((i) => {
+            console.log(i.id);
+        })
+    }
     NumTemplate(rowData, column, e) {
         Count++;
         return <span>{Count}</span>;
     }
     render() {
+        this.GetRol(this.state.users ? this.state.users : [])
         var header = <div style={{ textAlign: 'left' }}><Button type="button" icon="pi pi-external-link" iconPos="left" label="CSV" onClick={this.export}></Button></div>;
 
         return (
