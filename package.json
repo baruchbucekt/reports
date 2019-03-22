@@ -1,10 +1,11 @@
 {
   "name": "reports",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "proxy": "https://elektra.myvtex.com",
   "dependencies": {
     "classnames": "^2.2.6",
+    "express": "^4.16.4",
     "jquery": "^3.3.1",
     "node-sass": "^4.11.0",
     "primeicons": "^1.0.0",
@@ -19,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "proxy": "http-server ./build -p 1234 -s -a localhost --cors -o -c-1 --proxy https://www.elektra.com.mx"
   },
   "eslintConfig": {
     "extends": "react-app"

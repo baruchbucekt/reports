@@ -11,6 +11,8 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
 import Users from './views/users/';
+import GetCoupons from './views/coupons/getcoupons';
+import SelerProducts from './views/marketplace/productsSeller.js';
 
 const About = () => (
   <div>
@@ -41,7 +43,27 @@ class App extends Component {
             {
               label: "Usuarios Vtex",
               icon: "pi pi-fw pi-users",
-              command: () => { History.push('/users'); },
+              command: () => { History.push('/users'); }
+            }
+          ]
+        }, {
+          label: 'Cupones',
+          icon: 'pi pi-plus',
+          items: [
+            {
+              label: "Consulta cupones",
+              icon: "pi pi-fw pi-users",
+              command: () => { History.push('/getcoupons'); }
+            }
+          ]
+        }, {
+          label: 'Marketplace',
+          icon: 'pi pi-plus',
+          items: [
+            {
+              label: "Productos de sellers",
+              icon: "pi pi-fw pi-users",
+              command: () => { History.push('/productsSeller'); }
             }
           ]
         }, {
@@ -60,6 +82,8 @@ class App extends Component {
           <Menubar model={this.state.items} />
           <Route exact path="/" component={Home} />
           <Route exact path="/users" component={Users} />
+          <Route exact path="/getcoupons" component={GetCoupons} />
+          <Route exact path="/productsSeller" component={SelerProducts} />
           <Route path="/about" component={About} />
         </div>
       </Router>

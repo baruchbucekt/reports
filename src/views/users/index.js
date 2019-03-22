@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import $ from 'jquery';
 
 import GetRol from '../../components/getRole';
+import GetRole from '../../components/getRole';
 
 let Count = 0;
 
@@ -16,7 +17,7 @@ class UsersTable extends Component {
         this.state = {};
         this.export = this.export.bind(this);
         this.NumTemplate = this.NumTemplate.bind(this);
-        this.GetRol = this.GetRol.bind(this);
+        this.actionTemplate = this.actionTemplate.bind(this);
     }
     export() {
         this.dt.exportCSV();
@@ -25,7 +26,7 @@ class UsersTable extends Component {
         let _this = this;
         $.ajax({
             type: 'GET',
-            //url: '/api/license-manager/site/pvt/logins/list/paged?sort=name&sortType=ASC&numItems=11377',
+            //url: '/api/license-manager/site/pvt/logins/list/paged?sort=name&sortType=ASC&numItems=12000',
             url: './allUser.json',
             dataType: 'json',
             success: function (data) {
@@ -35,17 +36,15 @@ class UsersTable extends Component {
             error: function () { console.log('Failed!'); }
         });
     }
-    GetRol = (items) => {
-        return items.map((i) => {
-            console.log(i.id);
-        })
+    actionTemplate = (data) => {
+        //console.log(data)
+        return GetRole(data).toString();
     }
     NumTemplate(rowData, column, e) {
         Count++;
         return <span>{Count}</span>;
     }
     render() {
-        this.GetRol(this.state.users ? this.state.users : [])
         var header = <div style={{ textAlign: 'left' }}><Button type="button" icon="pi pi-external-link" iconPos="left" label="CSV" onClick={this.export}></Button></div>;
 
         return (
@@ -63,6 +62,7 @@ class UsersTable extends Component {
                         <Column header="#" body={this.NumTemplate} />
                         <Column field="email" header="email" />
                         <Column field="name" header="name" />
+                        <Column body={this.actionTemplate} />
                     </DataTable>
 
                 </div>
